@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+
+   
+}
+
+ main {
+     /* Provide scrollbars if needed, position below header, and derive height from top/bottom */
+     overflow: auto;
+     position: absolute;
+     width: 100%;
+     top: 76px;
+     bottom: 0;
+     text-align: center;
+     align-items: center;
+ }
+
+form{
+    background-color: rgb(46, 46, 164);
+   padding: 15px 15px;
+    margin-top: 0;
+   text-align: center;
+   position: absolute;
+   top: 0;
+   width: 100%;
+ 
+
+}
+
+input {
+
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 200px;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+form button {
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.load-more {
+    margin: 0 auto;
+    margin-top: 50px;
+    display: block;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.load-more:disabled {
+    background-color: #c1c1c1;
+    cursor: not-allowed;
+}
+
+.load-more.hidden {
+    display: none;
+}
+
+.gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.photo-card {
+    overflow: hidden;
+    width: calc((100% - 80px) / 4);
+    margin: 0;
+}
+
+.photo-card img {
+    width: 400px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 12px;
+}
+
+.info-item {
+    margin-left: 15px;
+    margin-right:15px;
+}
