@@ -32,7 +32,7 @@ async function fetchMoreImages() {
   loadMoreBtn.disable();
   try {
     const newSearch = await searchImages.fetchImages();
-    console.log(newSearch.data.hits);
+    // console.log(newSearch.data.hits);
     if (newSearch.data.hits.length === 0) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
