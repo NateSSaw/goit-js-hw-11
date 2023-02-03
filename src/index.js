@@ -40,6 +40,7 @@ async function fetchMoreImages() {
       loadMoreBtn.hide();
     } else if (newSearch.data.hits.length < 40) {
       createMarkup(newSearch.data);
+
       loadMoreBtn.hide();
       Notify.success(
         "We're sorry, but you've reached the end of search results."
@@ -96,4 +97,15 @@ function clearGalleryList() {
 
 function onError(err) {
   Notify.failure(err);
+}
+
+function scroll() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
