@@ -32,13 +32,21 @@ function fetchImages() {
   loadMoreBtn.disable();
   return searchImages
     .fetchImages()
-    .then(({ hits }) => {
+    .then(({ hits, totalHits }) => {
       if (hits.length === 0) {
         Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+        loadMoreBtn.hide();
+      } else if (hits.length < 40) {
+        Notify.success(
+          "We're sorry, but you've reached the end of search results."
+        ),
+          createMarkup(hits);
+        loadMoreBtn.hide();
       } else {
-        createMarkup(hits);
+        Notify.success(`Hooray! We found ${totalHits} images.`),
+          createMarkup(hits);
         loadMoreBtn.enable();
       }
     })
