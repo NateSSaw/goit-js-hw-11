@@ -14,46 +14,48 @@ const loadMoreBtn = new LoadMoreBtn({
 const searchImages = new SearchImages();
 
 form.addEventListener('submit', onSubmit);
-loadMoreBtn.button.addEventListener('click', fetchImages);
+loadMoreBtn.button.addEventListener('click', fetchMoreImages);
 
 function onSubmit(e) {
   e.preventDefault();
 
   const form = e.currentTarget;
-  searchImages.query = form.elements.searchQuery.value.trim();
+  searchImages.searchQuery = form.elements.searchQuery.value.trim();
   clearGalleryList();
   searchImages.resetPage();
   loadMoreBtn.show();
 
-  fetchImages().finally(() => form.reset());
+  fetchMoreImages();
 }
 
-function fetchImages() {
+async function fetchMoreImages() {
   loadMoreBtn.disable();
-  return searchImages
-    .fetchImages()
-    .then(({ hits, totalHits }) => {
-      if (hits.length === 0) {
-        Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        loadMoreBtn.hide();
-      } else if (hits.length < 40) {
-        Notify.success(
-          "We're sorry, but you've reached the end of search results."
-        ),
-          createMarkup(hits);
-        loadMoreBtn.hide();
-      } else {
-        Notify.success(`Hooray! We found ${totalHits} images.`),
-          createMarkup(hits);
-        loadMoreBtn.enable();
-      }
-    })
-    .catch(onError);
+  try {
+    const newSearch = await searchImages.fetchImages();
+    console.log(newSearch.data.hits);
+    if (newSearch.data.hits.length === 0) {
+      Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      loadMoreBtn.hide();
+    } else if (newSearch.data.hits.length < 40) {
+      createMarkup(newSearch.data);
+      loadMoreBtn.hide();
+      Notify.success(
+        "We're sorry, but you've reached the end of search results."
+      );
+    } else {
+      Notify.success(`Hooray! We found ${newSearch.data.totalHits} images.`),
+        createMarkup(newSearch.data);
+      loadMoreBtn.enable();
+    }
+  } catch (err) {
+    onError(err);
+  } finally {
+    form.reset();
+  }
 }
-
-function createMarkup(hits) {
+function createMarkup({ hits }) {
   const markup = hits
     .map(
       ({
